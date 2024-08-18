@@ -60,7 +60,10 @@ namespace ViBANManager.API.Services.Alinma
         public override async Task<object> ActivateViBANAsync(object request)
         {
             var bankConfig = await _bankConfigRepo.GetBankConfigurationAsync(_bankName);
-            var bankConfigDto = _mapper.Map<BankConfigDto>(bankConfig);
+            var bankConfigDto = _mapper.Map<BankConfigDto>(bankConfig, opt =>
+            {
+                opt.Items["ServiceUrl"] = "/REST/VirtualAccount/v1/Management/Activate";
+            });
 
             var requestDto = request as AlinmaActivateReqDto;
             
@@ -84,7 +87,10 @@ namespace ViBANManager.API.Services.Alinma
         public override async Task<object> DeactivateViBANAsync(object request)
         {
             var bankConfig = await _bankConfigRepo.GetBankConfigurationAsync(_bankName);
-            var bankConfigDto = _mapper.Map<BankConfigDto>(bankConfig);
+            var bankConfigDto = _mapper.Map<BankConfigDto>(bankConfig, opt =>
+            {
+                opt.Items["ServiceUrl"] = "/REST/VirtualAccount/v1/Management/Deactivate";
+            });
 
             var requestDto = request as AlinmaDeactivateReqDto;
             
@@ -107,7 +113,9 @@ namespace ViBANManager.API.Services.Alinma
         public override async Task<object> AccountInquiryViBANsAsync(object request)
         {
             var bankConfig = await _bankConfigRepo.GetBankConfigurationAsync(_bankName);
-            var bankConfigDto = _mapper.Map<BankConfigDto>(bankConfig);
+            var bankConfigDto = _mapper.Map<BankConfigDto>(bankConfig, opt => { 
+                opt.Items["ServiceUrl"] = "/REST/VirtualAccount/v1/Inquiry"; 
+            });
 
             var requestDto = request as AlinmaActivateReqDto;
             if (requestDto == null)
